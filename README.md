@@ -11,7 +11,7 @@ This example demonstrates how to use [`@colyseus/schema`](https://docs.colyseus.
 
 ### Limitations
 
-As `@colyseus/schema` is in-memory and single-threaded, you must treat each socket.io server as a single "room". If you're interested in scaling this approach, you can check how to [scale Colyseus applications (without socket.io)](https://docs.colyseus.io/deployment/scalability).
+Since `@colyseus/schema` is in-memory and single-threaded, you must treat each Socket.IO server as a single "room". If you're interested in scaling this approach, you can check how to [scale Colyseus applications (without Socket.IO)](https://docs.colyseus.io/deployment/scalability).
 
 ## Quick Start
 
