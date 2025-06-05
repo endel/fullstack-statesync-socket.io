@@ -1,6 +1,6 @@
 # Full-stack State Sync with Socket.IO 
 
-This example demonstrates how to use `@colyseus/schema` with Socket.IO for efficient real-time state synchronization.
+This example demonstrates how to use [`@colyseus/schema`](https://docs.colyseus.io/state/schema) with Socket.IO for efficient real-time state synchronization.
 
 ## Features
 
@@ -8,6 +8,10 @@ This example demonstrates how to use `@colyseus/schema` with Socket.IO for effic
 - **Efficient State Sync**: Only sends what changed, not the entire state
 - **Type Safety**: TypeScript support with schema decorators - catches errors at compile time
 - **Reactive Callbacks**: Listen to specific property changes
+
+### Limitations
+
+As `@colyseus/schema` is in-memory and single-threaded, you must treat each socket.io server as a single "room". If you're interested in scaling this approach, you can check how to [scale Colyseus applications (without socket.io)](https://docs.colyseus.io/deployment/scalability).
 
 ## Quick Start
 
