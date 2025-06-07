@@ -30,7 +30,7 @@
 
         // Decode state changes
         socket.on("sync", (data) => {
-            decoder.decode(data);
+            decoder.decode(new Uint8Array(data));
             document.getElementById("state").innerHTML = JSON.stringify(state.toJSON(), null, 8);
         });
 
