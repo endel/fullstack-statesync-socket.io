@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-stack State Sync with Socket.IO + Colyseus</title>
+</head>
+<body>
+    <h1>Full-stack State Sync with Socket.IO + Colyseus</h1>
+    <pre id="state"></pre>
+
+    <!-- Include Socket.IO and @colyseus/schema libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@colyseus/schema@^3.0.0/build/umd/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@^4.0.0/dist/socket.io.min.js"></script>
+
+    <script type="text/javascript">
+        const socket = io("http://localhost:3000");
+        var state, decoder;
+
+        // Log when connected to server
+        socket.on("connect", () => console.log("Connected to server"));
+
+        // Get the reflection of the state
+        // (Not required if you are able to instantiate "GameState" direclty from the client)
+        socket.on("reflection", (data) => {
+            decoder = schema.Reflection.decode(new Uint8Array(data));
+            state = decoder.state;
+            setupListeners();
+        });
+
+        // Decode state changes
+        socket.on("sync", (data) => {
+            decoder.decode(data);
+            document.getElementById("state").innerHTML = JSON.stringify(state.toJSON(), null, 8);
+        });
+
+        function setupListeners() {
+            // We will use this to listen to state changes
+            const $ = schema.getDecoderStateCallbacks(decoder);
+
+            // Listen when a new player joins
+            $(state).players.onAdd((player, id) => {
+                console.log(`${id} joined!`, player.toJSON());
+
+                // Watch for when they move
+                $(player).listen("x", (newX, oldX) => {
+                    console.log(id, "X moved from", oldX, "to", newX);
+                });
+
+                $(player).listen("y", (newY, oldY) => {
+                    console.log(id, "Y moved from", oldY, "to", newY);
+                });
+
+                // React to health changes
+                $(player).listen("health", (newHealth, oldHealth) => {
+                    if (newHealth <= 0) {
+                        console.log(player.name, "died!");
+                    } else {
+                        console.log(player.name, "health changed from", oldHealth, "to", newHealth);
+                    }
+                });
+            });
+
+            // Listen when a player leaves
+            $(state).players.onRemove((player, id) => {
+                console.log(`${id} left`);
+            });
+
+            // Listen to a property changes
+            $(state).listen("round", (newRound) => {
+                console.log("Round: ", newRound);
+            });
+
+            $(state).listen("status", (newStatus) => {
+                console.log("Status: ", newStatus);
+            });
+        }
+
+    </script>
+</body>
+</html>

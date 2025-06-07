@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "tsx watch src/server.ts",
-    "client": "tsx src/client.ts",
+    "client": "tsx watch src/client.ts",
     "build": "tsc"
   },
   "dependencies": {

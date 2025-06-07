@@ -15,7 +15,7 @@ Since `@colyseus/schema` is in-memory and single-threaded, you must treat each S
 
 ## Quick Start
 
-1. **Install dependencies** (already done):
+1. **Install dependencies**:
    ```bash
    npm install
    ```
