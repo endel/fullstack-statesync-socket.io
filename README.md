@@ -1,4 +1,4 @@
-# Full-stack State Sync with Socket.IO 
+# Real-time State Sync with Socket.IO
 
 This example demonstrates how to use [`@colyseus/schema`](https://docs.colyseus.io/state/schema) with Socket.IO for efficient real-time state synchronization.
 
@@ -11,7 +11,7 @@ This example demonstrates how to use [`@colyseus/schema`](https://docs.colyseus.
 
 ### Limitations
 
-Since `@colyseus/schema` is in-memory and single-threaded, you must treat each Socket.IO server as a single "room". If you're interested in scaling this approach, you can check how to [scale Colyseus applications (without Socket.IO)](https://docs.colyseus.io/deployment/scalability).
+This example uses a single `Encoder` for all connections. You may extend it to support a multiple `Encoder`‘s per Socket.io Room. As `@colyseus/schema` is in-memory and single-threaded, it is not possible to scale the same `Encoder` between multiple servers or processes. If you're interested in scaling this approach, you can check how to [scale Colyseus applications (without Socket.IO)](https://docs.colyseus.io/deployment/scalability).
 
 ## Quick Start
 
@@ -43,7 +43,7 @@ Since `@colyseus/schema` is in-memory and single-threaded, you must treat each S
 - Uses `Decoder` to apply state updates
 - Reactive callbacks respond to specific changes
 
-The result is a robust foundation for real-time multiplayer applications. 
+The result is a robust foundation for real-time multiplayer applications.
 
 ## License
 
